@@ -13,15 +13,16 @@ for url in urls:
 
         author = a.authors
         dates = a.publish_date
-        add_data = a.additional_data
         text = a.text
         tag = a.tags
         title = a.title
         keywords = a.keywords
 
-        print(author,dates,add_data,text,tag,title,keywords)
+        new_df = pd.DataFrame({'author':[author],'dates':[dates],'text':[text]
+                               ,'tag':[tag],'title':[title],'keywords':[keywords]})
     except Exception as e:
         print(e)
+
 
 
 '''
