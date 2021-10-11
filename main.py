@@ -1,7 +1,7 @@
 import pandas as pd
 import newspaper
 from newspaper import Article
-df = pd.read_excel('Untitled 1.xlsx')
+df = pd.read_excel(' 1.xlsx')
 urls = df['data'].to_list()
 
 
