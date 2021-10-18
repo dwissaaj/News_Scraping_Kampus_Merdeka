@@ -1,8 +1,8 @@
 import pandas as pd
 import newspaper
 from newspaper import Article
-df = pd.read_excel('pt pos indonesia OR PT Pos OR Pospay.xlsx')
-urls = df['link'].to_list()
+df = pd.read_csv('Link Berita.csv')
+urls = df['data'].to_list()
 
 all_authors = {"author": []}
 all_dates = {"dates": []}
@@ -39,7 +39,7 @@ for url in urls:
     except Exception as e:
         print(e)
 
-new_df = pd.concat(map([all_title,all_text,all_authors,all_add_data,all_tag,all_dates,all_keyword]))
+new_df = pd.concat(map([all_text,all_authors])
 
 
 
