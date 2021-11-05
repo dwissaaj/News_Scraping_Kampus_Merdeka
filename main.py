@@ -1,63 +1,59 @@
+from serpapi import GoogleSearch
 import pandas as pd
 import newspaper
 from newspaper import Article
-df = pd.read_csv('Link Berita.csv')
-urls = df['data'].to_list()
 
-all_authors = {"author": []}
-all_dates = {"dates": []}
-all_add_data = {"add":[]}
-all_text = {"text":[]}
-all_tag = {"tag":[]}
-all_title = {"title":[]}
-all_keyword = {"keyword":[]}
-
-for url in urls:
-    try:
-        a = Article(url, language='id')
-        a.download()
-        a.parse()
-
-        author = a.authors
-        dates = a.publish_date
-        add_data = a.additional_data
-        text = a.text
-        tag = a.tags
-        title = a.title
-        keywords = a.keywords
-
-        all_authors['author'].append(author)  # it need in [] because it can be multiple
-        all_dates['dates'].append(dates)  # it need in [] because it can be multiple
-        all_add_data['add'].append(add_data)  # it need in [] because it can be multiple
-        all_text['text'].append(text)  # it need in [] because it can be multiple
-        all_tag['tag'].append(tag)  # it need in [] because it can be multiple
-        all_title['title'].append(title)  # it need in [] because it can be multiple
-        all_keyword['keyword'].append(keywords)  # it need in [] because it can be multiple
+print("Hallo Tolong Masukkan kata kunci dan tanggal\n")
+print("==============================================")
+print("Masukkan Tanggal Awal\n")
+first_day = int(input())
+print("Masukkan Bulan Awal\n")
+first_month = int(input())
+print("Masukkan Tahun Awal\n")
+first_year = int(input())
+print("==============================================")
+print("Masukkan Tanggal Akhir\n")
+last_day = int(input())
+print("Masukkan Bulan Akhir\n")
+last_month = int(input())
+print("Masukkan Tahun Akhir\n")
+last_year = int(input())
+print("==============================================")
+print("Masukkan Keyword\n")
+q = str(input())
+print("Masukkan perkiraan jumlah\n")
+number = int(input())
+print("Masukkan 2 huruf bahasa.Bisa dilihat di https://serpapi.com/google-languages\n")
+lang = str(input()).lower()
+print("Masukkan lokasi berita.Bisa dilihat di  https://serpapi.com/locations-api\n")
+loc = str(input()).capitalize()
+print("Memulai Mining\n")
 
 
+params = {
+        "tbm":"nws",
+        "q":f"{q}",
+        "location":f"{loc}",
+        "hl":f"{lang}",
+        "num":f"{number}",
+        "tbs": f"cdr:1,cd_min:{first_month}/{first_day}/{first_year},cd_max:{last_month}/{last_month}/{last_year}",
+        "api_key": "69b24ec3aa1e40f4dabf7440adeda63c70adba534a8e8581088661895957c22e",
 
-    except Exception as e:
-        print(e)
-
-new_df = pd.concat(map([all_text,all_authors])
+}
 
 
+search = GoogleSearch(params)
+result = search.get_dict()
+news = result['news_results']
 
+link = []
 
-'''
-a = Article(cek,language='id')
-b = a.download()
-c = a.parse()
-author = a.authors
-date = a.publish_date
-add_data = a.additional_data
-text = a.text
-tag = a.tags
-title = a.title
-keywords = a.keywords
-combine = {'author':author,'date':date,'text':
-text,'add_data':add_data,'tag':tag,'tittle':title,'keyword':keywords}
-data = pd.DataFrame(data=combine)
+for data in news:
+  link.append(data.get('link'))
+
+df = pd.DataFrame({'link':link})
+
+urls = df['link'].to_list()
 
 
 data = []
@@ -79,7 +75,12 @@ for url in urls:
         title = a.title
         keywords = a.keywords
 
+
         new_df = pd.DataFrame({'penulis':[author],'tanggal':[dates],'additional':[add_data],'berita':[text],'tags':[tag],'judul':[title],'kata':[keywords]})
         data.append(new_df)
 
-df = pd.concat(data)'''
+print("Mining Selesai\n")
+print("==============================================")
+print("Masukkan Nama File\n")
+file_name = str(input())
+new_df.to_excel(f"{file_name}.xlsx")
