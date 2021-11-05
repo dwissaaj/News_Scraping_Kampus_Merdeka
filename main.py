@@ -55,7 +55,7 @@ df = pd.DataFrame({'link':link})
 
 urls = df['link'].to_list()
 
-
+new_df = pd.DataFrame
 data = []
 for url in urls:
     try:
@@ -76,7 +76,7 @@ for url in urls:
         keywords = a.keywords
 
 
-        new_df = pd.DataFrame({'penulis':[author],'tanggal':[dates],'additional':[add_data],'berita':[text],'tags':[tag],'judul':[title],'kata':[keywords]})
+        pd.DataFrame({'penulis':[author],'tanggal':[dates],'additional':[add_data],'berita':[text],'tags':[tag],'judul':[title],'kata':[keywords]})
         data.append(new_df)
 
 print("Mining Selesai\n")
